@@ -2,18 +2,20 @@
   display: flex;
   justify-items: center;
   align-items: center;
-  background-color: #777;
   width: 20em;
   height: 24em;
 }
 .calculator {
+  background-color: #777;
+  border-radius: 0.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .display {
   background-color: white;
-  margin: 2em 2em 1em 2em;
+  border-radius: 0.5em;
+  margin: 3em 2em 0em 2em;
   border: solid 1px black;
   width: 16em;
   height: 4em;
@@ -25,12 +27,27 @@
   font-size: xxx-large;
   padding: 0.15em;
 }
+
+button[type=submit] {
+  font-family:monospace;
+}
 .buttons {
   display: flex;
-  padding: 2em 2em;
+  padding: 2em 2em 4em 2em;
 }
-.btn {
-  padding: 1em;
+.btn--number,
+.btn--operator,
+.btn--equals,
+.btn--clear {
+  padding: 1em 2em 1em;
+  border-radius: 0.5em;
+}
+.btn--clear {
+  background-color: red;
+}
+.btn--operator, 
+.btn--equals {
+  background-color: orange;
 }
 
 .numbers {
@@ -43,6 +60,4 @@
 .operators {
   display: flex;
   flex-direction: column;
-}
-.operators {
 }
