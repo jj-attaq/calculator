@@ -1,12 +1,8 @@
 "use strict";
 const init = null;
-let a = init;
-let b = init;
+let a = '';
+let b = '';
 let operator = init;
-
-// expand on below, much better than the other mess
-// needs to be integrated into the event creation functions below
-
 
 function operate(operator, a, b) {
   if (operator === 'add') {operator = add}
@@ -18,17 +14,21 @@ function operate(operator, a, b) {
   return operator(a, b);
 }
 function add(a, b) {
-  return a + b;
+  return +a + +b;
 }
 function subtract(a, b) {
-  return a - b;
+  return +a - +b;
 }
 function multiply(a, b) {
-  return a * b;
+  return +a * +b;
 }
 function divide(a, b) {
-  return a / b;
+  return +a / +b;
 }
+//const add = (a, b) => +a + +b; 
+//const subtract = (a, b) => +a - +b;
+//const multiply = (a, b) => +a * +b;
+//const divide = (a, b) => +a / +b;
 function Expression(a, operator, b, result) {
   this.a = a;
   this.operator = operator;
@@ -41,16 +41,18 @@ function Expression(a, operator, b, result) {
 // --------------------------------------------------
 function display(n) {
   const dispVal = (n) => document.querySelector('.display--content').textContent = n;
+  // get rid of ERROR and put in rounding with Math.round
   return n.toString().length > 10 ? dispVal('ERROR') : dispVal(n);
 }
 const addButtonEv = () => {
   document.addEventListener('click', (event) => {
+    // rewrite so 5 * 4 + 1 * 2 = 42;
     if (event.target.matches('.btn--number')) {  
       if (a, b, operator === null) {
-        a = +event.target.value;
-        return display(a);
+        a += event.target.value;
+        return display(+a);
       } else if (operator != null) {
-        b = +event.target.value;
+        b += event.target.value;
         return display(b);
       }
     }
