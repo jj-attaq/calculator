@@ -1,3 +1,4 @@
+// TEST
 "use strict";
 const init = null;
 let a = '';
