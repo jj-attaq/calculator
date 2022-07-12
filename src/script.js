@@ -1,20 +1,20 @@
 "use strict";
-const init = null;
-let operator = init;
 
 function operate(operator, a, b) {
   if (operator === 'add') {operator = operators.add}
   if (operator === 'subtract') {operator = operators.subtract}
   if (operator === 'multiply') {operator = operators.multiply}
   if (operator === 'divide') {operator = operators.divide}
+  if (operator === 'plusMinus') {operator = operators.plusMinus}
   return operator(a, b);
 }
 const operators = {
-  operator: init,
+  operator: null,
   add: (a, b) => a + b, 
   subtract: (a, b) => a - b,
   multiply: (a, b) => a * b,
-  divide: (a, b) => a / b
+  divide: (a, b) => a / b,
+  plusMinus: n => n * -1 
 }
 const operands = {
   a: '',
@@ -30,25 +30,26 @@ function Expression(a, operator, b, result) {
 
 function display(n) {
   const dispVal = (n) => document.querySelector('.display--content').textContent = n;
+  const rounded = Math.round(n * 1000000000) / 1000000000;
   // get rid of ERROR and put in rounding with Math.round
   return n.toString().length > 10 ? dispVal('ERROR') : dispVal(n);
 }
 function dispResult() {
-  operands.a = new Expression(operands.a, operator, operands.b).result.toString();
+  operands.a = new Expression(operands.a, operators.operator, operands.b).result.toString();
   return display(operands.a);
 }
 function equalsReset() {
   dispResult();
   operands.b = '';
-  operator = init;
+  operators.operator = null;
 }
 const addButtonEv = () => {
   document.addEventListener('click', (event) => {
     if (event.target.matches('.btn--number')) {  
-      if (operator === null) {
+      if (operators.operator === null) {
         operands.a += event.target.value;
         return display(operands.a);
-      } else if (operator != null) {
+      } else if (operators.operator != null) {
         operands.b += event.target.value;
         return display(operands.b);
       }
@@ -57,7 +58,7 @@ const addButtonEv = () => {
         if (operands.b.length > 0) {
           equalsReset() 
         }
-        operator = event.target.value;
+        operators.operator = event.target.value;
     }
   });
 };
@@ -68,16 +69,24 @@ const addEqualsEv = () => {
     }
   })
 }
+const addMiscEv = () => {
+  document.addEventListener('click', (event) => {
+    if (event.target.matches('#btn-plusMinus')) {
+      operators.plusMinus()
+    }
+  })
+}
 const clearBtnEv = () => {
   document.addEventListener('click', (event) => {
     if (event.target.matches('#btn-clear')) {
       operands.a = '';
       operands.b = '';
-      operator = init;
+      operators.operator = null;
       display('');
     }
   })
 }
 addButtonEv();
 addEqualsEv();
+addMiscEv();
 clearBtnEv();
