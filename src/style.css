@@ -33,7 +33,6 @@ button[type=submit] {
   font-family:monospace;
 }
 .buttons {
-  display: flex;
   padding: 2em 2em 4em 2em;
 }
 /*
@@ -66,11 +65,4 @@ button[type=submit] {
 .numbers {
   display: flex;
   justify-content: center;
-}
-.numbers--left,
-.numbers--middle-left,
-.numbers--middle-right,
-.operators {
-  display: flex;
-  flex-direction: column;
 }
