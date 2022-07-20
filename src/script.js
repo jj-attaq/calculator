@@ -27,18 +27,17 @@ function Expression(a, operator, b, result) {
   this.a = operands.a;
   this.operator = operator;
   this.b = operands.b;
-  this.result = operate(operator, +a, +b)
+  this.result = operate(operator, +a, +b) // converted to numbers at point of calc, makes +=ing strings possible for display functions
 }
-
 function display(n) {
   const dispVal = (n) => document.querySelector('.display--content').textContent = n;
+  const decIndex = (n) => n.indexOf('.');
+  const x = 10 ** (9 - decIndex(n));
   function roundNum(n) {
-    n = ''; // number of digit spaces left in display txt content
-    // Math.round formula where 'n' determines number of zeroes
-    const rounded = Math.round(n * 1000000000) / 1000000000;
+    return Math.round(n * x) / x;
   }
   // get rid of ERROR and put in rounding with Math.round
-  return n.toString().length > 10 ? dispVal('ERROR') : dispVal(n);
+  return dispVal(roundNum(n));
 }
 function dispResult() {
   operands.a = new Expression(operands.a, operators.operator, operands.b).result.toString();
@@ -53,11 +52,19 @@ const addButtonEv = () => {
   document.addEventListener('click', (event) => {
     if (event.target.matches('.btn--number')) {  
       if (operators.operator === null) {
-        operands.a += event.target.value;
-        return display(operands.a);
+        if (operands.a.length >= 9) {
+          return display(operands.a)
+        } else {
+          operands.a += event.target.value;
+          return display(operands.a);
+        }
       } else if (operators.operator != null) {
-        operands.b += event.target.value;
-        return display(operands.b);
+        if (operands.b.length >= 9) {
+          return display(operands.b)
+        } else {
+          operands.b += event.target.value;
+          return display(operands.b);
+        }
       }
     }
     if (event.target.matches('.btn--operator')) {
